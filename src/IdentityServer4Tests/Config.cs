@@ -1,4 +1,5 @@
-﻿using IdentityServer4.Models;
+﻿using IdentityServer4;
+using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,14 @@ namespace IdentityServer4Tests
             };
         }
 
+        public static IEnumerable<IdentityResource> GetIdentityResources()
+        {
+            return new List<IdentityResource>
+            {
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
+            };
+        }
 
         public static IEnumerable<Client> GetClients()
         {
@@ -37,39 +46,25 @@ namespace IdentityServer4Tests
                     AllowedScopes = { "IdentityServer4Tests.ApiResource" }
                 },
 
-                ////resource owner client
-                //new Client
-                //{
-                //    ClientId = "ro.client",
-                //    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-
-                //    ClientSecrets =
-                //    {
-                //        new Secret("secret".Sha256())
-                //    },
-                        
-                //    AllowedScopes = { "IdentityServer4Tests.ApiResource" }
-                //}
-            };
-        }
-
-        public static List<TestUser> GetUsers()
-        {
-            return new List<TestUser> {
-                new TestUser
+                new Client
                 {
-                    SubjectId = "1",
-                    Username = "alice",
-                    Password = "password"
-                },
-                new TestUser
-                {
-                    SubjectId = "2",
-                    Username = "bob",
-                    Password = "password"
+                    ClientId = "IdentityServer4Tests.MvcClient",
+                    ClientName = "MVC Client",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+
+                    // where to redirect to after login
+                    RedirectUris = { "http://localhost:5002/signin-oidc" },
+
+                    // where to redirect to after logout
+                    PostLogoutRedirectUris = { "http://localhost:5002/home/index" },
+
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    }
                 }
             };
         }
-
     }
 }

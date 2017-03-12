@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using IdentityServer4.Quickstart.UI;
 
 namespace IdentityServer4Tests
 {
@@ -18,9 +19,12 @@ namespace IdentityServer4Tests
         {
             services.AddIdentityServer()
                 .AddTemporarySigningCredential()
+                .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients())
-                .AddTestUsers(Config.GetUsers());
+                .AddTestUsers(TestUsers.Users);
+
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,10 +39,8 @@ namespace IdentityServer4Tests
 
             app.UseIdentityServer();
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
