@@ -32,7 +32,7 @@ namespace IdentityServer4Tests
                         new Secret("secret".Sha256())
                     },
 
-                    AllowedScopes = { "api1"}
+                    AllowedScopes = { "IdentityServer4Tests.ApiResource" }
                 }
             };
         }

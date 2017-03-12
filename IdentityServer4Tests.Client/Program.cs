@@ -13,22 +13,21 @@ namespace IdentityServer4Tests.Client
     {
         static void Main(string[] args)
         {
-            Task.Run(async () => await AsyncMain());
+            Console.WriteLine("Wait for the identity server and API to initialize and then press any button.");
+            Console.ReadLine();
 
-            
+            Task.Run(() => AsyncMain()).GetAwaiter().GetResult();
 
-
-
-
+            Console.ReadLine();
         }
 
         private static async Task AsyncMain()
         {
-            var discoveries = await DiscoveryClient.GetAsync("http:localhost:5000");
+            var discoveries = await DiscoveryClient.GetAsync("http://localhost:5000");
 
             var tokenClient = new TokenClient(discoveries.TokenEndpoint, "IdentityServer4Tests.Client", "secret");
 
-            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("IdentityServer4Tests.Apiresource");
+            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("IdentityServer4Tests.ApiResource");
 
             if (tokenResponse.IsError)
             {
