@@ -60,21 +60,21 @@ namespace IdentityServer4Tests
             });
 
             //// middleware for external openid connect authentication
-            //app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
-            //{
-            //    SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
-            //    SignOutScheme = IdentityServerConstants.SignoutScheme,
-            //    AutomaticChallenge = true,
-            //    DisplayName = "OpenID Connect",
-            //    Authority = "https://demo.identityserver.io/",
-            //    ClientId = "implicit",
+            app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
+            {
+                SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
+                SignOutScheme = IdentityServerConstants.SignoutScheme,
+                AutomaticChallenge = true,
+                DisplayName = "OpenID Connect",
+                Authority = "https://demo.identityserver.io/",
+                ClientId = "implicit",
 
-            //    TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        NameClaimType = "name",
-            //        RoleClaimType = "role"
-            //    }
-            //});
+                TokenValidationParameters = new TokenValidationParameters
+                {
+                    NameClaimType = "name",
+                    RoleClaimType = "role"
+                }
+            });
 
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
