@@ -52,8 +52,18 @@ namespace IdentityServer4Tests.MvcClient
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
-                AuthenticationScheme = "Cookies"
+                AuthenticationScheme = "Cookies",
+                AutomaticChallenge = true
             });
+
+            //app.UseGoogleAuthentication(new GoogleOptions
+            //{
+            //    AuthenticationScheme = "external",
+            //    DisplayName = "Google",
+            //    SignInScheme = "Cookies",
+            //    ClientId = "434483408261-55tc8n0cs4ff1fe21ea8df2o443v2iuc.apps.googleusercontent.com",
+            //    ClientSecret = "3gcoTrEDPPJ0ukn_aYYT6PWo"
+            //});
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
@@ -66,6 +76,8 @@ namespace IdentityServer4Tests.MvcClient
                 ClientId = "IdentityServer4Tests.MvcClient",
                 SaveTokens = true
             });
+
+
 
             app.UseMvc(routes =>
             {

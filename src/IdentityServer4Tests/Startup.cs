@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using IdentityServer4.Quickstart.UI;
+using IdentityServer4;
+using Microsoft.IdentityModel.Tokens;
 
 namespace IdentityServer4Tests
 {
@@ -21,8 +23,10 @@ namespace IdentityServer4Tests
                 .AddTemporarySigningCredential()
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())
-                .AddInMemoryClients(Config.GetClients())
-                .AddTestUsers(TestUsers.Users);
+                .AddInMemoryClients(Config.GetClients());
+                //.AddTestUsers(TestUsers.Users);
+
+            
 
             services.AddMvc();
         }
@@ -38,6 +42,39 @@ namespace IdentityServer4Tests
             }
 
             app.UseIdentityServer();
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
+                AutomaticChallenge = true
+            });
+
+            app.UseGoogleAuthentication(new GoogleOptions
+            {
+                AuthenticationScheme = "Google",
+                DisplayName = "Google",
+                SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
+
+                ClientId = "434483408261-55tc8n0cs4ff1fe21ea8df2o443v2iuc.apps.googleusercontent.com",
+                ClientSecret = "3gcoTrEDPPJ0ukn_aYYT6PWo"
+            });
+
+            //// middleware for external openid connect authentication
+            //app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
+            //{
+            //    SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
+            //    SignOutScheme = IdentityServerConstants.SignoutScheme,
+            //    AutomaticChallenge = true,
+            //    DisplayName = "OpenID Connect",
+            //    Authority = "https://demo.identityserver.io/",
+            //    ClientId = "implicit",
+
+            //    TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        NameClaimType = "name",
+            //        RoleClaimType = "role"
+            //    }
+            //});
 
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
