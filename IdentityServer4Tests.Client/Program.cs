@@ -1,11 +1,11 @@
-﻿using IdentityModel.Client;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using IdentityModel.Client;
 
 namespace IdentityServer4Tests.Client
 {
@@ -90,34 +90,37 @@ namespace IdentityServer4Tests.Client
 
         private static async Task<string> GetResourceOwnerAccessTokenAsync()
         {
-            var discoveries = await DiscoveryClient.GetAsync("http://localhost:5000");
+            //var discoveries = await DiscoveryClient.GetAsync("http://localhost:5000");
 
-            var tokenClient = new TokenClient(discoveries.TokenEndpoint, "IdentityServer4Tests.Client", "secret");
+            //var tokenClient = new TokenClient(discoveries.TokenEndpoint, "IdentityServer4Tests.Client", "secret");
 
-            var tokenResponse = await tokenClient.RequestResourceOwnerPasswordAsync("alice","password","IdentityServer4Tests.ApiResource");
+            //var tokenResponse = await tokenClient.RequestResourceOwnerPasswordAsync("alice","password","IdentityServer4Tests.ApiResource");
 
-            if (tokenResponse.IsError)
-            {
-                throw new Exception(tokenResponse.Error);
-            }
+            //if (tokenResponse.IsError)
+            //{
+            //    throw new Exception(tokenResponse.Error);
+            //}
 
-            return tokenResponse.AccessToken;
+            //return tokenResponse.AccessToken;
+            return "test";
         }
 
         private static async Task<string> GetClientCredentialsAccessTokenAsync()
         {
-            var discoveries = await DiscoveryClient.GetAsync("http://localhost:5000");
+            //var discoveries = await DiscoveryClient.GetAsync("http://localhost:5000");
 
-            var tokenClient = new TokenClient(discoveries.TokenEndpoint, "IdentityServer4Tests.Client", "secret");
+            //var tokenClient = new TokenClient(discoveries.TokenEndpoint, "IdentityServer4Tests.Client", "secret");
 
-            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("IdentityServer4Tests.ApiResource");
+            //var tokenResponse = await tokenClient.RequestClientCredentialsAsync("IdentityServer4Tests.ApiResource");
 
-            if (tokenResponse.IsError)
-            {
-                throw new Exception(tokenResponse.Error);
-            }
+            //if (tokenResponse.IsError)
+            //{
+            //    throw new Exception(tokenResponse.Error);
+            //}
 
-            return tokenResponse.AccessToken;
+            //return tokenResponse.AccessToken;
+
+            return "test";
         }
     }
 }

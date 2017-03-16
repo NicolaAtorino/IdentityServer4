@@ -56,24 +56,22 @@ namespace IdentityServer4Tests.MvcClient
                 AutomaticChallenge = true
             });
 
-            //app.UseGoogleAuthentication(new GoogleOptions
-            //{
-            //    AuthenticationScheme = "external",
-            //    DisplayName = "Google",
-            //    SignInScheme = "Cookies",
-            //    ClientId = "434483408261-55tc8n0cs4ff1fe21ea8df2o443v2iuc.apps.googleusercontent.com",
-            //    ClientSecret = "3gcoTrEDPPJ0ukn_aYYT6PWo"
-            //});
-
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
             app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
             {
                 AuthenticationScheme = "oidc",
                 SignInScheme = "Cookies",
+
                 Authority = "http://localhost:5000",
                 RequireHttpsMetadata = false,
+
                 ClientId = "IdentityServer4Tests.MvcClient",
+                ClientSecret = "secret",
+
+                ResponseType= "code id_token",
+                Scope = { "IdentityServer4Tests.ApiResource", "offline_access" },
+
+                GetClaimsFromUserInfoEndpoint = true,
                 SaveTokens = true
             });
 

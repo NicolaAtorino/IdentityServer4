@@ -50,7 +50,12 @@ namespace IdentityServer4Tests
                 {
                     ClientId = "IdentityServer4Tests.MvcClient",
                     ClientName = "MVC Client",
-                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+                    AllowOfflineAccess = true,
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
 
                     // where to redirect to after login
                     RedirectUris = { "http://localhost:5002/signin-oidc" },
@@ -61,7 +66,8 @@ namespace IdentityServer4Tests
                     AllowedScopes = new List<string>
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "IdentityServer4Tests.ApiResource"
                     }
                 }
             };
